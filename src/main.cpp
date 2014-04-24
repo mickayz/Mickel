@@ -31,8 +31,9 @@ CTxMemPool mempool;
 unsigned int nTransactionsUpdated = 0;
 
 map<uint256, CBlockIndex*> mapBlockIndex;
+//TODO change
 uint256 hashGenesisBlock("0x4d96a915f49d40b1e5c2844d1ee2dccb90013a990ccea12c492d22110489f0c4");
-static CBigNum bnProofOfWorkLimit(~uint256(0) >> 20); // Vertcoin: starting difficulty is 1 / 2^12
+static CBigNum bnProofOfWorkLimit(~uint256(0) >> 20); // Mickel: starting difficulty is 1 / 2^12
 CBlockIndex* pindexGenesisBlock = NULL;
 int nBestHeight = -1;
 uint256 nBestChainWork = 0;
@@ -65,7 +66,7 @@ map<uint256, set<uint256> > mapOrphanTransactionsByPrev;
 // Constant stuff for coinbase transactions we create:
 CScript COINBASE_FLAGS;
 
-const string strMessageMagic = "Vertcoin Signed Message:\n";
+const string strMessageMagic = "Mickel Signed Message:\n";
 
 double dHashesPerSec = 0.0;
 int64 nHPSTimerStart = 0;
@@ -356,7 +357,7 @@ unsigned int LimitOrphanTxSize(unsigned int nMaxOrphans)
 
 bool CTxOut::IsDust() const
 {
-    // Vertcoin: IsDust() detection disabled, allows any valid dust to be relayed.
+    // Mickel: IsDust() detection disabled, allows any valid dust to be relayed.
     // The fees imposed on each dust txo is considered sufficient spam deterrant. 
     return false;
 }
@@ -613,7 +614,7 @@ int64 CTransaction::GetMinFee(unsigned int nBlockSize, bool fAllowFree,
             nMinFee = 0;
     }
 
-    // Vertcoin
+    // Mickel 
     // To limit dust spam, add nBaseFee for each output less than DUST_SOFT_LIMIT
     BOOST_FOREACH(const CTxOut& txout, vout)
         if (txout.nValue < DUST_SOFT_LIMIT)
@@ -1096,18 +1097,18 @@ unsigned char GetNfactor(int64 nTimestamp) {
 
 int64 static GetBlockValue(int nHeight, int64 nFees)
 {
-    int64 nSubsidy = 50 * COIN;
+    int64 nSubsidy = 5 * COIN;  //Mickel: 5 Mickels per block
 
     // Subsidy is cut in half every 840000 blocks, which will occur approximately every 4 years
-    nSubsidy >>= (nHeight / 840000); // Vertcoin: 840k blocks in ~4 years
+    nSubsidy >>= (nHeight / 840000); // Mickel: 840k blocks in ~4 years
 
     return nSubsidy + nFees;
 }
 
 
 
-static const int64 nTargetTimespan = 3.5 * 24 * 60 * 60; // Vertcoin: 3.5 days
-static const int64 nTargetSpacing = 2.5 * 60; // Vertcoin: 2.5 minutes
+static const int64 nTargetTimespan = 3.5 * 24 * 60 * 60; // Mickel: 3.5 days
+static const int64 nTargetSpacing = 2.5 * 60; // Mickel: 2.5 minutes
 static const int64 nInterval = nTargetTimespan / nTargetSpacing;
 static const int nKGWInterval = 12; // Timewarp fix - retargets every 12 blocks
 
@@ -1170,7 +1171,7 @@ unsigned int static GetNextWorkRequired_V1(const CBlockIndex* pindexLast, const 
         return pindexLast->nBits;
     }
 
-    // Vertcoin: This fixes an issue where a 51% attack can change difficulty at will.
+    // Mickel: This fixes an issue where a 51% attack can change difficulty at will.
     // Go back the full period unless it's the first retarget after genesis. Code courtesy of Art Forz
     int blockstogoback = nInterval-1;
     if ((pindexLast->nHeight+1) != nInterval)
@@ -2389,7 +2390,7 @@ bool CBlock::AcceptBlock(CValidationState &state, CDiskBlockPos *dbp)
 
 bool CBlockIndex::IsSuperMajority(int minVersion, const CBlockIndex* pstart, unsigned int nRequired, unsigned int nToCheck)
 {
-    // Vertcoin: temporarily disable v2 block lockin until we are ready for v2 transition
+    // Mickel: temporarily disable v2 block lockin until we are ready for v2 transition
     return false;
     unsigned int nFound = 0;
     for (unsigned int i = 0; i < nToCheck && nFound < nRequired && pstart != NULL; i++)
@@ -2883,11 +2884,11 @@ bool LoadBlockIndex()
         pchMessageStart[1] = 0xc1;
         pchMessageStart[2] = 0xb7;
         pchMessageStart[3] = 0xdc;*/
-        pchMessageStart[0] = 'v';
-        pchMessageStart[1] = 'e';
-        pchMessageStart[2] = 'r';
-        pchMessageStart[3] = 't';
-        hashGenesisBlock = uint256("0xbd270cb82121e85f4eba6d0c2ffdc9eb74674eb9bafed9bbaa0fe8f47d971aae");
+        pchMessageStart[0] = 'm';
+        pchMessageStart[1] = 'i';
+        pchMessageStart[2] = 'c';
+        pchMessageStart[3] = 'k';
+        hashGenesisBlock = uint256("0xbd270cb82121e85f4eba6d0c2ffdc9eb74674eb9bafed9bbaa0fe8f47d971aae"); //Mickel: TODO change
         //hashGenesisBlock = uint256("0xf5ae71e26c74beacc88382716aced69cddf3dffff24f384e1808905e0188f68f");
     }
 
@@ -2915,12 +2916,12 @@ bool InitBlockIndex() {
     if (!fReindex) {
 
         // Genesis block
-        const char* pszTimestamp = "01/09/2014 Germany to Help in Disposal of Syrian Chemical Weapons";
+        const char* pszTimestamp = "04/23/2014 Bitcasa adds Chromecast support to Android app";
         CTransaction txNew;
         txNew.vin.resize(1);
         txNew.vout.resize(1);
         txNew.vin[0].scriptSig = CScript() << 0 << CBigNum(999) << vector<unsigned char>((const unsigned char*)pszTimestamp, (const unsigned char*)pszTimestamp + strlen(pszTimestamp));
-        txNew.vout[0].nValue = 50 * COIN;
+        txNew.vout[0].nValue = 5 * COIN;
         txNew.vout[0].scriptPubKey = CScript();
         
         CBlock block;
@@ -2929,14 +2930,14 @@ bool InitBlockIndex() {
         block.hashMerkleRoot = block.BuildMerkleTree();
         block.nVersion = 1;
         block.nBits    = 0x1e0ffff0;
-        block.nNonce = 5749262;
-        block.nTime = 1389311371;
+        block.nNonce = 5749262; //Mickel: change this
+        block.nTime = 1389311371; //Mickel: change this
         
         if (fTestNet)
         {
 
-            block.nNonce = 11521194;
-            block.nTime = 1389306217;
+            block.nNonce = 11521194; //Mickel: change this
+            block.nTime = 1389306217; //Mickel: change this
         }
 
         //// debug print
@@ -3219,7 +3220,7 @@ bool static AlreadyHave(const CInv& inv)
 // The message start string is designed to be unlikely to occur in normal data.
 // The characters are rarely used upper ASCII, not valid as UTF-8, and produce
 // a large 4-byte int at any alignment.
-unsigned char pchMessageStart[4] = { 0xfa, 0xbf, 0xb5, 0xda }; // Vertcoin: increase each by adding 1 to bitcoin's value.
+unsigned char pchMessageStart[4] = { 0xf8, 0xbd, 0xb3, 0xd8 }; // Mickel: increase each by adding -1 to bitcoin's value.
 
 
 void static ProcessGetData(CNode* pfrom)
@@ -4261,7 +4262,7 @@ bool SendMessages(CNode* pto, bool fSendTrickle)
 
 //////////////////////////////////////////////////////////////////////////////
 //
-// VertcoinMiner
+// MickelMiner
 //
 
 int static FormatHashBlocks(void* pbuffer, unsigned int len)
@@ -4674,7 +4675,7 @@ bool CheckWork(CBlock* pblock, CWallet& wallet, CReserveKey& reservekey)
         return false;
 
     //// debug print
-    printf("VertcoinMiner:\n");
+    printf("MickelMiner:\n");
     printf("proof-of-work found  \n  hash: %s  \ntarget: %s\n", hash.GetHex().c_str(), hashTarget.GetHex().c_str());
     pblock->print();
     printf("generated %s\n", FormatMoney(pblock->vtx[0].vout[0].nValue).c_str());
@@ -4683,7 +4684,7 @@ bool CheckWork(CBlock* pblock, CWallet& wallet, CReserveKey& reservekey)
     {
         LOCK(cs_main);
         if (pblock->hashPrevBlock != hashBestChain)
-            return error("VertcoinMiner : generated block is stale");
+            return error("MickelMiner : generated block is stale");
 
         // Remove key from key pool
         reservekey.KeepKey();
@@ -4697,17 +4698,17 @@ bool CheckWork(CBlock* pblock, CWallet& wallet, CReserveKey& reservekey)
         // Process this block the same as if we had received it from another node
         CValidationState state;
         if (!ProcessBlock(state, NULL, pblock))
-            return error("VertcoinMiner : ProcessBlock, block not accepted");
+            return error("MickelMiner : ProcessBlock, block not accepted");
     }
 
     return true;
 }
 
-void static VertcoinMiner(CWallet *pwallet)
+void static MickelMiner(CWallet *pwallet)
 {
-    printf("VertcoinMiner started\n");
+    printf("MickelMiner started\n");
     SetThreadPriority(THREAD_PRIORITY_LOWEST);
-    RenameThread("vertcoin-miner");
+    RenameThread("mickel-miner");
 
     // Each thread has its own key and counter
     CReserveKey reservekey(pwallet);
@@ -4729,7 +4730,7 @@ void static VertcoinMiner(CWallet *pwallet)
         CBlock *pblock = &pblocktemplate->block;
         IncrementExtraNonce(pblock, pindexPrev, nExtraNonce);
 
-        printf("Running VertcoinMiner with %"PRIszu" transactions in block (%u bytes)\n", pblock->vtx.size(),
+        printf("Running MickelMiner with %"PRIszu" transactions in block (%u bytes)\n", pblock->vtx.size(),
                ::GetSerializeSize(*pblock, SER_NETWORK, PROTOCOL_VERSION));
 
         //
@@ -4840,7 +4841,7 @@ void static VertcoinMiner(CWallet *pwallet)
     } }
     catch (boost::thread_interrupted)
     {
-        printf("VertcoinMiner terminated\n");
+        printf("MickelMiner terminated\n");
         throw;
     }
 }
@@ -4865,7 +4866,7 @@ void GenerateBitcoins(bool fGenerate, CWallet* pwallet)
 
     minerThreads = new boost::thread_group();
     for (int i = 0; i < nThreads; i++)
-        minerThreads->create_thread(boost::bind(&VertcoinMiner, pwallet));
+        minerThreads->create_thread(boost::bind(&MickelMiner, pwallet));
 }
 
 // Amount compression:
