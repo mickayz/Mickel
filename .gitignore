@@ -1,7 +1,7 @@
 src/*.exe
-src/vertcoin
-src/vertcoind
-src/test_vertcoin
+src/mickel
+src/mickeld
+src/test_mickel
 .*.swp
 *.*~*
 *.bak
@@ -14,12 +14,12 @@ src/test_vertcoin
 # Compilation and Qt preprocessor part
 *.qm
 Makefile
-vertcoin-qt
-Vertcoin-Qt.app
+mickel-qt
+Mickel-Qt.app
 
 # Unit-tests
 Makefile.test
-vertcoin-qt_test
+mickel-qt_test
 
 # Resources cpp
 qrc_*.cpp
@@ -31,6 +31,6 @@ qrc_*.cpp
 .DS_Store
 build
 Info
-Vertcoin-Qt.xcodeproj
+Mickel-Qt.xcodeproj
 
 !src/leveldb-*/Makefile

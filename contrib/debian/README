@@ -1,20 +1,20 @@
-This directory contains files used to package vertcoind/vertcoin-qt
+This directory contains files used to package mickeld/mickel-qt
 for Debian-based Linux systems.
 
-If you compile vertcoind/vertcoin-qt yourself, there are some
+If you compile mickeld/mickel-qt yourself, there are some
 useful files here:
 
-vertcoin: URI support
+mickel: URI support
 --------------------
 
-vertcoin-qt.desktop  (Gnome / Open Desktop)
+mickel-qt.desktop  (Gnome / Open Desktop)
 To install:
-  sudo desktop-file-install vertcoin-qt.desktop
+  sudo desktop-file-install mickel-qt.desktop
   sudo update-desktop-database
 
 If you build yourself, you will either need to modify the paths in
-the .desktop file or copy or symlink your vertcoin-qt binary to /usr/bin
-and the ../../share/pixmaps/vertcoin128.png to /usr/share/pixmaps
+the .desktop file or copy or symlink your mickel-qt binary to /usr/bin
+and the ../../share/pixmaps/mickel128.png to /usr/share/pixmaps
 
-vertcoin-qt.protocol (KDE)
+mickel-qt.protocol (KDE)
 

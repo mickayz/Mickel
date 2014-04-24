@@ -67,7 +67,7 @@ private slots:
     void copyLabel();
     void copyAmount();
     void copyTxID();
-    void viewOnVertExplorer();
+    void viewOnMickelExplorer();
 
 signals:
     void doubleClicked(const QModelIndex&);
