@@ -2888,7 +2888,7 @@ bool LoadBlockIndex()
         pchMessageStart[1] = 'i';
         pchMessageStart[2] = 'c';
         pchMessageStart[3] = 'k';
-        hashGenesisBlock = uint256("0xbd270cb82121e85f4eba6d0c2ffdc9eb74674eb9bafed9bbaa0fe8f47d971aae"); //Mickel: TODO change
+        hashGenesisBlock = uint256("0xce3c1f4bafc601967bc56ca5575511cec4faeec6a7128f20c985181576a2ad49"); //Mickel: Changed
         //hashGenesisBlock = uint256("0xf5ae71e26c74beacc88382716aced69cddf3dffff24f384e1808905e0188f68f");
     }
 
@@ -2936,8 +2936,8 @@ bool InitBlockIndex() {
         if (fTestNet)
         {
 
-            block.nNonce = 11521194; //Mickel: change this
-            block.nTime = 1389306217; //Mickel: change this
+            block.nNonce = 11630202; //Mickel: changed this
+            block.nTime = 1389306217; //Mickel: changed this
         }
 
         //// debug print
@@ -2945,8 +2945,47 @@ bool InitBlockIndex() {
         printf("%s\n", hash.ToString().c_str());
         printf("%s\n", hashGenesisBlock.ToString().c_str());
         printf("%s\n", block.hashMerkleRoot.ToString().c_str());
-        assert(block.hashMerkleRoot == uint256("0x4af38ca0e323c0a5226208a73b7589a52c030f234810cf51e13e3249fc0123e7"));
-       
+        assert(block.hashMerkleRoot == uint256("0x77f487f8b824e1ab6a427496aabf5df6633a0c3bcbcc1ec9e31530149811a97d"));
+      
+
+
+
+	// Mickel: Genesis creation
+            // If genesis block hash does not match, then generate new genesis hash.
+            if (true && block.GetHash() != hashGenesisBlock)
+            {
+                printf("Searching for genesis block...\n");
+                // This will figure out a valid hash and Nonce if you're
+                // creating a different genesis block:
+                uint256 hashTarget = CBigNum().SetCompact(block.nBits).getuint256();
+                uint256 thash;
+                unsigned long int  scrypt_scratpad_size_current_block = ((1 << (GetNfactor(block.nTime) + 1)) * 128 ) + 63;
+            
+                char scratchpad[scrypt_scratpad_size_current_block];
+   
+                
+                loop
+                {
+                    scrypt_N_1_1_256_sp_generic(BEGIN(block.nVersion), BEGIN(thash), scratchpad, GetNfactor(block.nTime));
+    
+                    if (thash <= hashTarget)
+                        break;
+                    if ((block.nNonce & 0xFFF) == 0)
+                    {
+                        printf("nonce %08X: hash = %s (target = %s)\n", block.nNonce, thash.ToString().c_str(), hashTarget.ToString().c_str());
+                    }
+                    ++block.nNonce;
+                    if (block.nNonce == 0)
+                    {
+                        printf("NONCE WRAPPED, incrementing time\n");
+                        ++block.nTime;
+                    }
+                }
+                printf("block.nTime = %u \n", block.nTime);
+                printf("block.nNonce = %u \n", block.nNonce);
+                printf("block.GetHash = %s\n", block.GetHash().ToString().c_str());
+            }
+ 
         
         block.print();
         assert(hash == hashGenesisBlock);
