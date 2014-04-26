@@ -8,6 +8,19 @@ Copyright (c) 2011-2013 Litecoin Developers
 Copyright (c) 2014 Vertcoin Developers
 Copyright (c) 2014 Mickel Developers
 
+
+NOTE!!!
+--------
+
+Generating static binaries is on the TODO list.
+
+To quickly compile your own mickel-qt on Ubuntu do the following:
+ - sudo apt-get install qt4-qmake libqt4-dev build-essential libboost-dev libboost-system-dev libboost-filesystem-dev libboost-program-options-dev libboost-thread-dev libssl-dev libdb++-dev libminiupnpc-dev
+ - cd mickel
+ - qmake
+ - make
+
+
 What is Mickel?
 ----------------
 

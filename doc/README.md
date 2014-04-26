@@ -32,7 +32,7 @@ Unpack the files into a directory and run:
 - bin/64/mickel-qt (GUI, 64-bit)
 - bin/64/mickeld (headless, 64-bit)
 
-See the documentation at the [Mickel Wiki](http://mickel.org)
+See the documentation at the [Mickel Wiki](http://mickel.co.in)
 for help and more information.
 
 
