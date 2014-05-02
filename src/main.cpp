@@ -2951,6 +2951,8 @@ bool InitBlockIndex() {
 
 
 	// Mickel: Genesis creation
+	if(false)
+	{
             // If genesis block hash does not match, then generate new genesis hash.
             if (true && block.GetHash() != hashGenesisBlock)
             {
@@ -2985,8 +2987,8 @@ bool InitBlockIndex() {
                 printf("block.nNonce = %u \n", block.nNonce);
                 printf("block.GetHash = %s\n", block.GetHash().ToString().c_str());
             }
- 
-        
+        } 
+
         block.print();
         assert(hash == hashGenesisBlock);
 
